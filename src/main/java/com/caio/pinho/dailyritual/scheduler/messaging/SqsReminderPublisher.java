@@ -1,8 +1,11 @@
-package com.caio.pinho.dailyritual.scheduler.scheduler;
+package com.caio.pinho.dailyritual.scheduler.messaging;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import com.caio.pinho.dailyritual.scheduler.model.ReminderJob;
+import com.caio.pinho.dailyritual.shared.config.AppSqsProperties;
+import com.caio.pinho.dailyritual.shared.messaging.MessagePublisher;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -10,7 +13,8 @@ import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
 
 @Component
-public class SqsReminderPublisher implements ReminderPublisher {
+@ConditionalOnProperty(prefix = "app.messaging", name = "provider", havingValue = "sqs", matchIfMissing = true)
+public class SqsReminderPublisher implements MessagePublisher<ReminderJob> {
 
 	private final SqsClient sqsClient;
 	private final String queueUrl;
@@ -18,9 +22,9 @@ public class SqsReminderPublisher implements ReminderPublisher {
 
 	public SqsReminderPublisher(
 			SqsClient sqsClient,
-			@Value("${app.sqs.reminder-queue-url:http://localhost:4566/000000000000/reminder-due}") String queueUrl) {
+			AppSqsProperties sqsProperties) {
 		this.sqsClient = sqsClient;
-		this.queueUrl = queueUrl;
+		this.queueUrl = sqsProperties.reminderQueueUrl();
 	}
 
 	@Override

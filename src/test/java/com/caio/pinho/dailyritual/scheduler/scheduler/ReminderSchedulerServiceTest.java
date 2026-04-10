@@ -18,6 +18,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.caio.pinho.dailyritual.scheduler.dto.ReminderRuleRequest;
+import com.caio.pinho.dailyritual.scheduler.model.ReminderJob;
+import com.caio.pinho.dailyritual.scheduler.repository.ReminderJobRepository;
+import com.caio.pinho.dailyritual.scheduler.repository.ReminderRuleRepository;
+import com.caio.pinho.dailyritual.scheduler.service.ReminderSchedulerService;
+import com.caio.pinho.dailyritual.shared.messaging.MessagePublisher;
+import com.caio.pinho.dailyritual.scheduler.repository.ReminderJobRepository;
+import com.caio.pinho.dailyritual.scheduler.repository.ReminderRuleRepository;
+import com.caio.pinho.dailyritual.scheduler.service.ReminderSchedulerService;
+
 @SpringBootTest
 @ActiveProfiles("test")
 class ReminderSchedulerServiceTest {
@@ -71,7 +81,7 @@ class ReminderSchedulerServiceTest {
 		}
 	}
 
-	static class CapturingReminderPublisher implements ReminderPublisher {
+	static class CapturingReminderPublisher implements MessagePublisher<ReminderJob> {
 		private final List<ReminderJob> jobs = new ArrayList<>();
 
 		@Override

@@ -1,4 +1,4 @@
-package com.caio.pinho.dailyritual.scheduler.scheduler;
+package com.caio.pinho.dailyritual.scheduler.dto;
 
 import java.time.LocalDateTime;
 

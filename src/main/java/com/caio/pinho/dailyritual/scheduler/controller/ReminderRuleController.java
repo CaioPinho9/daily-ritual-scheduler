@@ -1,4 +1,4 @@
-package com.caio.pinho.dailyritual.scheduler.scheduler;
+package com.caio.pinho.dailyritual.scheduler.controller;
 
 import jakarta.validation.Valid;
 
@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.caio.pinho.dailyritual.scheduler.dto.ReminderRuleRequest;
+import com.caio.pinho.dailyritual.scheduler.dto.ReminderRuleResponse;
+import com.caio.pinho.dailyritual.scheduler.service.ReminderSchedulerService;
 import com.caio.pinho.dailyritual.shared.security.AuthenticatedUser;
 
 @RestController

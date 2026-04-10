@@ -1,4 +1,4 @@
-package com.caio.pinho.dailyritual.scheduler.scheduler;
+package com.caio.pinho.dailyritual.scheduler.service;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -8,18 +8,26 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.caio.pinho.dailyritual.scheduler.dto.ReminderRuleRequest;
+import com.caio.pinho.dailyritual.scheduler.dto.ReminderRuleResponse;
+import com.caio.pinho.dailyritual.scheduler.model.ReminderJob;
+import com.caio.pinho.dailyritual.scheduler.model.ReminderRule;
+import com.caio.pinho.dailyritual.scheduler.repository.ReminderJobRepository;
+import com.caio.pinho.dailyritual.scheduler.repository.ReminderRuleRepository;
+import com.caio.pinho.dailyritual.shared.messaging.MessagePublisher;
+
 @Service
 public class ReminderSchedulerService {
 
 	private final ReminderRuleRepository ruleRepository;
 	private final ReminderJobRepository jobRepository;
-	private final ReminderPublisher reminderPublisher;
+	private final MessagePublisher<ReminderJob> reminderPublisher;
 	private final Clock clock;
 
 	public ReminderSchedulerService(
 			ReminderRuleRepository ruleRepository,
 			ReminderJobRepository jobRepository,
-			ReminderPublisher reminderPublisher,
+			MessagePublisher<ReminderJob> reminderPublisher,
 			Clock clock) {
 		this.ruleRepository = ruleRepository;
 		this.jobRepository = jobRepository;
